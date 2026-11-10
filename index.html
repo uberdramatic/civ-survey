@@ -7,6 +7,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@jspsych/plugin-survey-likert@1.0.0/dist/index.browser.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@jspsych/plugin-survey-multi-choice@1.0.0/dist/index.browser.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@jspsych/plugin-survey-text@1.0.0/dist/index.browser.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@jspsych/plugin-survey-multi-select@1.0.0/dist/index.browser.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jspsych@7.3.4/css/jspsych.css">
 <style>
 body{font-family:Georgia,serif;background:#fff;color:#222}
@@ -30,7 +31,7 @@ const REF = NAMES[1];
 const R = {start:new Date().toISOString(), pid:uv.PROLIFIC_PID||'', cond:cond, consent:'no',
   comp:'', passage_ms:'', click_x:'', click_y:'', lon:'', lat:'',
   harappa:'', mohenjo:'', rakhigarhi:'', dholavira:'', shortugai:'', extent:'',
-  manip:'', q1:'', q2:'', q3:'', ni1:'', ni2:'', ni3:'', ni4:'',
+  manip:'', q1:'', q2:'', q3:'', heard:'', map_ms:'',
   age:'', residence:'', citizenship:'', gender:'', studied:'', end:''};
 
 const lk = (qs, labels, pre) => ({type:jsPsychSurveyLikert, preamble:pre||'',
@@ -58,7 +59,7 @@ const comp = mc([['comp','According to the passage, its script is:',['Fully deci
 const map = {type:jsPsychHtmlButtonResponse,
   stimulus:`<p>The map below shows part of South Asia. Click once on the spot where you think the center, or heartland, of ${REF} was. You can click again to move your mark.</p>
   <div style="position:relative;display:inline-block;cursor:crosshair"><img id="m" src="map.png" style="max-width:100%;width:600px"><div id="d" style="display:none;position:absolute;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;background:#d00;border:2px solid #fff"></div></div>`,
-  choices:['Continue'],
+  choices:['Continue'], on_finish:d=>{R.map_ms=d.rt;},
   on_load:()=>{
     const b=document.querySelector('#jspsych-html-button-response-btngroup'); b.style.visibility='hidden';
     document.getElementById('m').addEventListener('click',e=>{
@@ -84,12 +85,10 @@ const quiz = mc([
   ['q2','The "Great Bath" is associated with:',['Mohenjo-daro','Persepolis','Knossos','Giza','Not sure']],
   ['q3','Harappa lies in the modern country of:',['India','Pakistan','Afghanistan','Iran','Not sure']]]);
 
-const nid = lk([
-  ['ni1','Being a citizen of my country is an important part of how I see myself.'],
-  ['ni2','I feel strong ties to my country.'],
-  ['ni3','I am proud to be a citizen of my country.'],
-  ['ni4','I often think about the fact that I am a citizen of my country.']],
-  ['1 Strongly disagree','2','3','4','5','6','7 Strongly agree']);
+const heard = {type:jsPsychSurveyMultiSelect,
+  questions:[{name:'heard',prompt:'Before today, which names for this civilization had you heard? (Select all that apply.)',
+  options:['Indus Valley Civilization','Harappan Civilization','Indus-Sarasvati / Sindhu-Sarasvati Civilization','None of these'],required:true}],
+  on_finish:d=>{R.heard=(d.response.heard||[]).join('; ');}};
 
 const demo1 = tx([['age','Your age (18 or older)'],['residence','Country of residence'],['citizenship','Country of citizenship']]);
 const demo2 = mc([
@@ -107,5 +106,5 @@ function save(){
     .finally(()=>{ if(COMPLETION_URL) window.location.href=COMPLETION_URL; });
 }
 
-jsPsych.run([consent,passage,comp,map,sites,extent,manip,quiz,nid,demo1,demo2,debrief]);
+jsPsych.run([consent,passage,comp,map,sites,extent,manip,quiz,heard,demo1,demo2,debrief]);
 </script></html>
