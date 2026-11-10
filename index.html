@@ -31,7 +31,7 @@ const REF = NAMES[1];
 const R = {start:new Date().toISOString(), pid:uv.PROLIFIC_PID||'', cond:cond, consent:'no',
   comp:'', passage_ms:'', click_x:'', click_y:'', lon:'', lat:'',
   harappa:'', mohenjo:'', rakhigarhi:'', dholavira:'', shortugai:'', extent:'',
-  manip:'', q1:'', q2:'', q3:'', heard:'', map_ms:'',
+  manip:'', q1:'', q2:'', q3:'', q4:'', heard:'', map_ms:'',
   age:'', residence:'', citizenship:'', gender:'', studied:'', end:''};
 
 const lk = (qs, labels, pre) => ({type:jsPsychSurveyLikert, preamble:pre||'',
@@ -81,9 +81,10 @@ const manip = mc([['manip','What was the civilization called in the passage?',
   ['Indus Valley Civilization','Harappan Civilization','It was not given a specific name','Mesopotamian Civilization']]]);
 
 const quiz = mc([
-  ['q1','Mohenjo-daro is best known as:',['An ancient Bronze Age city','A medieval fortress','A Roman port','A Greek colony','Not sure']],
-  ['q2','The "Great Bath" is associated with:',['Mohenjo-daro','Persepolis','Knossos','Giza','Not sure']],
-  ['q3','Harappa lies in the modern country of:',['India','Pakistan','Afghanistan','Iran','Not sure']]]);
+  ['q1','Rakhigarhi, a site of this civilization, lies in which modern Indian state?',['Gujarat','Haryana','Rajasthan','Punjab','Not sure']],
+  ['q2','Lothal is best known for a structure often interpreted as:',['An astronomical observatory','A royal palace','A dockyard or tidal basin','A burial pyramid','Not sure']],
+  ['q3','Shortugai, a site of this civilization, lies in modern:',['Afghanistan','Iran','Turkmenistan','Oman','Not sure']],
+  ['q4','Harappa lies in the modern country of:',['India','Pakistan','Afghanistan','Iran','Not sure']]]);
 
 const heard = {type:jsPsychSurveyMultiSelect,
   questions:[{name:'heard',prompt:'Before today, which names for this civilization had you heard? (Select all that apply.)',
