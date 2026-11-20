@@ -10,8 +10,28 @@
 <script src="https://cdn.jsdelivr.net/npm/@jspsych/plugin-survey-multi-select@1.0.0/dist/index.browser.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jspsych@7.3.4/css/jspsych.css">
 <style>
-body{font-family:Georgia,serif;background:#fff;color:#222}
-.jspsych-content{max-width:680px;text-align:left;line-height:1.5}
+:root{--bg:#f4f1ea;--card:#fff;--ink:#1f2933;--muted:#5b6670;--accent:#1f5f6b;--accent-d:#164a54;--line:#d9d4c7}
+html,body{margin:0;background:var(--bg);-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);font-size:17px}
+.jspsych-display-element{background:var(--bg)}
+.jspsych-content-wrapper{padding:14px;box-sizing:border-box}
+.jspsych-content{background:var(--card);max-width:680px!important;width:100%;box-sizing:border-box;margin:16px auto;padding:28px 24px;border-radius:14px;box-shadow:0 2px 14px rgba(31,41,51,.08);text-align:left;line-height:1.65}
+.jspsych-content h3{margin-top:0;font-size:1.35em;color:var(--accent)}
+.jspsych-content p{margin:0 0 1em}
+.jspsych-btn{background:var(--accent);color:#fff;border:0;border-radius:10px;padding:12px 24px;font-size:16px;font-family:inherit;cursor:pointer;margin:10px 10px 0 0}
+.jspsych-btn:hover{background:var(--accent-d)}
+div[data-choice="1"] .jspsych-btn{background:#fff;color:var(--muted);border:1px solid var(--line)}
+div[data-choice="1"] .jspsych-btn:hover{background:#f4f1ea}
+#jspsych-html-button-response-btngroup{text-align:left}
+#jspsych-progressbar-container{background:#e7e2d6;border:0;border-radius:6px;height:8px;margin:12px auto;max-width:680px;width:calc(100% - 28px)}
+#jspsych-progressbar-inner{background:var(--accent);border-radius:6px}
+.jspsych-survey-multi-choice-question,.jspsych-survey-multi-select-question,.jspsych-survey-likert-statement,.jspsych-survey-text-question{font-weight:600;margin-top:1.8em;margin-bottom:.4em}
+.jspsych-survey-multi-choice-option,.jspsych-survey-multi-select-option{padding:7px 0}
+input[type=radio],input[type=checkbox]{accent-color:var(--accent);transform:scale(1.25);margin-right:8px}
+input[type=text]{width:100%;box-sizing:border-box;padding:11px 12px;border:1px solid var(--line);border-radius:8px;font-size:16px;font-family:inherit}
+input[type=submit],.jspsych-survey-likert-btn,.jspsych-btn[type=submit]{background:var(--accent);color:#fff;border:0;border-radius:10px;padding:12px 24px;font-size:16px;cursor:pointer;margin-top:1.6em}
+#m{border-radius:10px;border:1px solid var(--line)}
+@media (max-width:480px){.jspsych-content{padding:22px 16px}body{font-size:16px}}
 </style></head><body></body>
 <script>
 // ===== SETTINGS: edit these two lines =====
@@ -19,7 +39,7 @@ const ENDPOINT = 'https://script.google.com/macros/s/AKfycbxHVRWaAM7AS69GxnGuSzc
 const COMPLETION_URL = '';                      // Prolific completion link (optional)
 // ==========================================
 
-const jsPsych = initJsPsych({ on_finish: save });
+const jsPsych = initJsPsych({ on_finish: save, show_progress_bar: true, message_progress_bar: 'Progress' });
 const uv = jsPsych.data.urlVariables();
 const cond = uv.cond || jsPsych.randomization.sampleWithoutReplacement(['A','B','C'],1)[0];
 const NAMES = {
